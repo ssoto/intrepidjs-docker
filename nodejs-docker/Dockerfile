@@ -6,15 +6,12 @@ ENV REFRESHED_AT 2015-01-19
 RUN apt-get -yqq update
 RUN apt-get -yqq install nodejs npm
 RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN mkdir -p /var/log/nodeapp
+RUN npm i -g bower socket.io intrepidjs-cli
 
-ADD nodeapp /opt/nodeapp/
+WORKDIR /opt/
 
-WORKDIR /opt/nodeapp
-RUN npm install
+RUN mkdir intrepidjs && cd intrepidjs && intrepidjs-init myApp 
 
-VOLUME [ "/var/log/nodeapp" ]
+EXPOSE 8000
 
-EXPOSE 3000
-
-ENTRYPOINT [ "nodejs", "server.js" ]
+ENTRYPOINT [ "node", "app.js" ]
